@@ -1,17 +1,24 @@
-modLoader="javafml"
-loaderVersion="${fmlVersion}"
-license="LGPLv3.0"
+modLoader = "javafml"
+loaderVersion = "${fmlVersion}"
+license = "LGPLv3.0"
 
 [[mods]]
-modId="aecapfix"
-version="${version}"
-displayName="AECapFix"
-authors="90"
-description='''Adds proper invalidation to AE2 capabilities for mods that refuse to listen to block updates.'''
+modId = "aecapfix"
+version = "${version}"
+displayName = "AECapFix"
+authors = "90"
+description = '''Adds proper invalidation to AE2 capabilities for mods that refuse to listen to block updates.'''
 
 [[dependencies.aecapfix]]
-    modId="ae2"
-    mandatory=false
+    modId = "ae2"
+    mandatory = false
     versionRange = "${ae2Version}"
-    ordering="AFTER"
-    side="BOTH"
+    ordering = "AFTER"
+    side = "SERVER"
+
+[[dependencies.aecapfix]]
+    modId = "powah"
+    mandatory = false
+    versionRange = "${powahVersion}"
+    ordering = "AFTER"
+    side = "SERVER"

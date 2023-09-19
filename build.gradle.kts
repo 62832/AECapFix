@@ -105,7 +105,8 @@ tasks {
         val replaceProperties = mapOf(
             "version" to project.version,
             "fmlVersion" to "[${libs.versions.loader.get()},)",
-            "ae2Version" to "(,${libs.versions.ae2.get().substringBefore('.').toInt() + 1})"
+            "ae2Version" to "(,${libs.versions.ae2.get().substringBefore('.').toInt() + 1})",
+            "powahVersion" to "(,${libs.versions.powah.get().substringBefore('.').toInt() + 1})"
         )
 
         inputs.properties(replaceProperties)
