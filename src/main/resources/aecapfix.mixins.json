@@ -1,0 +1,30 @@
+{
+  "minVersion": "0.8.5",
+  "required": true,
+  "package": "gripe._90.aecapfix.mixin",
+  "refmap": "aecapfix.refmap.json",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "AEBaseInvBlockEntityMixin",
+    "AEBasePoweredBlockEntityMixin",
+    "CableBusBlockEntityMixin",
+    "CapabilityP2PTunnelPartMixin",
+    "ChestBlockEntityMixin",
+    "CondenserBlockEntityMixin",
+    "EnergyAcceptorPartMixin",
+    "InitCapabilitiesMixin",
+    "InterfaceBlockEntityMixin",
+    "InterfaceLogicMixin",
+    "InterfacePartMixin",
+    "PatternEncodingTerminalPartMixin",
+    "PatternProviderBlockEntityMixin",
+    "PatternProviderLogicMixin",
+    "PatternProviderPartMixin",
+    "PatternProviderReturnInventoryMixin",
+    "SkyStoneTankBlockEntityMixin"
+  ],
+  "client": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
