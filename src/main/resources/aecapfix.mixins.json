@@ -21,7 +21,8 @@
     "ae2.PatternProviderLogicMixin",
     "ae2.PatternProviderPartMixin",
     "ae2.PatternProviderReturnInventoryMixin",
-    "ae2.SkyStoneTankBlockEntityMixin"
+    "ae2.SkyStoneTankBlockEntityMixin",
+    "powah.ForgeEnvHandlerMixin"
   ],
   "client": [],
   "injectors": {

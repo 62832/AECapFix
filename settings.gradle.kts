@@ -27,6 +27,11 @@ dependencyResolutionManagement {
             version("ae2", "12.9.5")
             library("ae2", "appeng", "appliedenergistics2-forge").versionRef("ae2")
 
+            version("powah", "4.0.11")
+            library("powah", "curse.maven", "powah-rearchitected-633483").version("4729361")
+            library("architectury", "dev.architectury", "architectury-forge").version("6.2.43")
+            library("cloth", "me.shedaniel.cloth", "cloth-config-forge").version("7.0.74")
+
             library("ic2c", "curse.maven", "ic2-classic-242942").version("4746971")
             library("jei", "mezz.jei", "jei-$minecraftVersion-forge").version("11.4.0.285")
             library("jade", "curse.maven", "jade-324717").version("4433884")

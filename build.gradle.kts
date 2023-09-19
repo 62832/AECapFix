@@ -57,6 +57,15 @@ repositories {
             includeGroup("curse.maven")
         }
     }
+
+    maven {
+        name = "Architectury"
+        url = uri("https://maven.architectury.dev/")
+        content {
+            includeGroup("dev.architectury")
+            includeGroup("me.shedaniel.cloth")
+        }
+    }
 }
 
 dependencies {
@@ -64,6 +73,10 @@ dependencies {
     annotationProcessor(variantOf(libs.mixin) { classifier("processor") })
 
     implementation(fg.deobf(libs.ae2.get()))
+
+    implementation(fg.deobf(libs.powah.get()))
+    runtimeOnly(fg.deobf(libs.architectury.get()))
+    runtimeOnly(fg.deobf(libs.cloth.get()))
 
     runtimeOnly(fg.deobf(libs.ic2c.get()))
     runtimeOnly(fg.deobf(libs.jei.get()))
