@@ -1,7 +1,7 @@
-package gripe._90.aecapfix.mixin;
+package gripe._90.aecapfix.mixin.ae2;
 
-import appeng.blockentity.crafting.PatternProviderBlockEntity;
-import appeng.helpers.iface.PatternProviderLogic;
+import appeng.blockentity.misc.InterfaceBlockEntity;
+import appeng.helpers.InterfaceLogic;
 import gripe._90.aecapfix.AECapFix;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -11,13 +11,13 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
-@Mixin(value = PatternProviderBlockEntity.class, remap = false)
-public abstract class PatternProviderBlockEntityMixin extends BlockEntity {
+@Mixin(value = InterfaceBlockEntity.class, remap = false)
+public abstract class InterfaceBlockEntityMixin extends BlockEntity {
     @Shadow
     @Final
-    protected PatternProviderLogic logic;
+    private InterfaceLogic logic;
 
-    public PatternProviderBlockEntityMixin(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+    public InterfaceBlockEntityMixin(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
 

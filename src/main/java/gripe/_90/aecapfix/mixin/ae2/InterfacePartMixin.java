@@ -1,4 +1,4 @@
-package gripe._90.aecapfix.mixin;
+package gripe._90.aecapfix.mixin.ae2;
 
 import appeng.helpers.InterfaceLogic;
 import appeng.parts.misc.InterfacePart;

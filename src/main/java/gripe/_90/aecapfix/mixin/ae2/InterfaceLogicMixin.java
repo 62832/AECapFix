@@ -1,4 +1,4 @@
-package gripe._90.aecapfix.mixin;
+package gripe._90.aecapfix.mixin.ae2;
 
 import appeng.api.behaviors.GenericInternalInventory;
 import appeng.api.networking.IManagedGridNode;

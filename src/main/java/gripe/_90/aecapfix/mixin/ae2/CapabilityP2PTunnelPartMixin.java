@@ -1,4 +1,4 @@
-package gripe._90.aecapfix.mixin;
+package gripe._90.aecapfix.mixin.ae2;
 
 import appeng.api.parts.IPartItem;
 import appeng.parts.p2p.CapabilityP2PTunnelPart;

@@ -11,7 +11,7 @@ description='''Adds proper invalidation to AE2 capabilities for mods that refuse
 
 [[dependencies.aecapfix]]
     modId="ae2"
-    mandatory=true
+    mandatory=false
     versionRange = "${ae2Version}"
     ordering="AFTER"
     side="BOTH"
