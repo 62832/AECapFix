@@ -31,10 +31,10 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-          curseforge-id: 905641
+          curseforge-id: 914685
           curseforge-token: ${{ secrets.CURSEFORGE_API_KEY }}
 
-          modrinth-id: IJI3QuK8
+          modrinth-id: LkfFGNnA
           modrinth-token: ${{ secrets.MODRINTH_API_KEY }}
 
           version: ${{ steps.build.outputs.MOD_VERSION }}
