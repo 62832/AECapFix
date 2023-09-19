@@ -8,7 +8,7 @@ plugins {
 
 val modId = "aecapfix"
 
-version = (System.getenv("CAPFIX_VERSION") ?: "v0.0.0").substring(1)
+version = (System.getenv("CAPFIX_VERSION") ?: "v0.0").substring(1).substringBefore('-')
 group = "gripe.90"
 base.archivesName.set(modId)
 
