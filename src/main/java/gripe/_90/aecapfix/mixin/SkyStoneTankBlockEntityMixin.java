@@ -23,6 +23,7 @@ public abstract class SkyStoneTankBlockEntityMixin extends BlockEntity {
 
     @Override
     public void invalidateCaps() {
+        super.invalidateCaps();
         holder.invalidate();
     }
 }
