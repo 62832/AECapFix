@@ -24,6 +24,7 @@ minecraft {
             workingDirectory(project.file("run"))
             property("forge.logging.markers", "REGISTRIES")
             property("forge.logging.console.level", "info")
+            property("appeng.tests", "true")
 
             mods {
                 create(modId) {
