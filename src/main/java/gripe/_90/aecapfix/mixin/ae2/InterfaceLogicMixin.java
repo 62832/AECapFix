@@ -2,7 +2,7 @@ package gripe._90.aecapfix.mixin.ae2;
 
 import appeng.api.behaviors.GenericInternalInventory;
 import appeng.api.networking.IManagedGridNode;
-import appeng.api.storage.IStorageMonitorableAccessor;
+import appeng.api.storage.MEStorage;
 import appeng.capabilities.Capabilities;
 import appeng.helpers.InterfaceLogic;
 import appeng.helpers.InterfaceLogicHost;
@@ -28,18 +28,20 @@ public abstract class InterfaceLogicMixin implements AECapFix.Invalidator {
     private ConfigInventory storage;
 
     @Shadow
-    @Final
-    private IStorageMonitorableAccessor accessor;
+    private MEStorage networkStorage;
 
     @SuppressWarnings("UnstableApiUsage")
     @Unique
     private LazyOptional<GenericInternalInventory> aecapfix$inventory;
 
     @Unique
-    private final LazyOptional<IStorageMonitorableAccessor> aecapfix$storage = LazyOptional.of(() -> accessor);
+    private final LazyOptional<MEStorage> aecapfix$storage = LazyOptional.of(() -> networkStorage);
 
-    @Inject(method = "<init>", at = @At("RETURN"))
-    private void setInventory(IManagedGridNode gridNode, InterfaceLogicHost host, Item is, CallbackInfo ci) {
+    @Inject(
+            method =
+                    "<init>(Lappeng/api/networking/IManagedGridNode;Lappeng/helpers/InterfaceLogicHost;Lnet/minecraft/world/item/Item;I)V",
+            at = @At("RETURN"))
+    private void setInventory(IManagedGridNode gridNode, InterfaceLogicHost host, Item is, int slots, CallbackInfo ci) {
         aecapfix$inventory = LazyOptional.of(() -> storage);
     }
 
@@ -48,7 +50,7 @@ public abstract class InterfaceLogicMixin implements AECapFix.Invalidator {
     private <T> void setCapability(Capability<T> cap, Direction side, CallbackInfoReturnable<LazyOptional<T>> cir) {
         if (cap == Capabilities.GENERIC_INTERNAL_INV) {
             cir.setReturnValue(aecapfix$inventory.cast());
-        } else if (cap == Capabilities.STORAGE_MONITORABLE_ACCESSOR) {
+        } else if (cap == Capabilities.STORAGE) {
             cir.setReturnValue(aecapfix$storage.cast());
         } else {
             cir.setReturnValue(LazyOptional.empty());

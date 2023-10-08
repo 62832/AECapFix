@@ -1,7 +1,7 @@
 package gripe._90.aecapfix.mixin.ae2;
 
 import appeng.blockentity.crafting.PatternProviderBlockEntity;
-import appeng.helpers.iface.PatternProviderLogic;
+import appeng.helpers.patternprovider.PatternProviderLogic;
 import gripe._90.aecapfix.AECapFix;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
