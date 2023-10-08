@@ -10,10 +10,11 @@ import java.util.Set;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.items.CapabilityItemHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -37,12 +38,12 @@ public abstract class InitCapabilitiesMixin {
             @NotNull
             @Override
             public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-                if (cap == ForgeCapabilities.ITEM_HANDLER) {
+                if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
                     var handler = be.getCapability(Capabilities.GENERIC_INTERNAL_INV, side)
                             .lazyMap(GenericStackItemStorage::new);
                     itemHandlers.add(handler);
                     return handler.cast();
-                } else if (cap == ForgeCapabilities.FLUID_HANDLER) {
+                } else if (cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
                     var handler = be.getCapability(Capabilities.GENERIC_INTERNAL_INV, side)
                             .lazyMap(GenericStackFluidStorage::new);
                     fluidHandlers.add(handler);

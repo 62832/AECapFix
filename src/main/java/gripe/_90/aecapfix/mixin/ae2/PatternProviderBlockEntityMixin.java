@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.Shadow;
 public abstract class PatternProviderBlockEntityMixin extends BlockEntity {
     @Shadow
     @Final
-    protected PatternProviderLogic logic;
+    private PatternProviderLogic logic;
 
     public PatternProviderBlockEntityMixin(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);

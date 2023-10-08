@@ -78,7 +78,7 @@ dependencies {
     runtimeOnly(fg.deobf(libs.architectury.get()))
     runtimeOnly(fg.deobf(libs.cloth.get()))
 
-    runtimeOnly(fg.deobf(libs.ic2c.get()))
+    runtimeOnly(fg.deobf(libs.lazierae2.get()))
     runtimeOnly(fg.deobf(libs.jei.get()))
     runtimeOnly(fg.deobf(libs.jade.get()))
 }

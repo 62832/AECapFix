@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.Shadow;
 public abstract class PatternProviderPartMixin implements AECapFix.Invalidator {
     @Shadow
     @Final
-    protected PatternProviderLogic logic;
+    private PatternProviderLogic logic;
 
     @Override
     public void aecapfix$invalidate() {

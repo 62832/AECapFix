@@ -6,11 +6,13 @@ import java.util.Set;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.items.CapabilityItemHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -37,7 +39,7 @@ public abstract class ForgeEnvHandlerMixin {
                 @NotNull
                 @Override
                 public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-                    if (cap == ForgeCapabilities.ENERGY) {
+                    if (cap == CapabilityEnergy.ENERGY) {
                         if (reactorPart.core().isPresent() && reactorPart.isExtractor()) {
                             var holder = reactorPart.core().get().getCapability(cap, side);
                             holders.add(holder.cast());
@@ -65,7 +67,7 @@ public abstract class ForgeEnvHandlerMixin {
                 @NotNull
                 @Override
                 public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-                    if (cap == ForgeCapabilities.ENERGY && energyStorage.isEnergyPresent(side)) {
+                    if (cap == CapabilityEnergy.ENERGY && energyStorage.isEnergyPresent(side)) {
                         var holder = LazyOptional.of(() -> new PowahEnergyStorage(energyStorage, side));
                         holders.add(holder);
                         return holder.cast();
@@ -92,7 +94,7 @@ public abstract class ForgeEnvHandlerMixin {
                 @NotNull
                 @Override
                 public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-                    return ForgeCapabilities.ITEM_HANDLER.orEmpty(cap, holder.cast());
+                    return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.orEmpty(cap, holder.cast());
                 }
 
                 private void invalidate() {
@@ -112,7 +114,7 @@ public abstract class ForgeEnvHandlerMixin {
                 @NotNull
                 @Override
                 public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-                    return ForgeCapabilities.FLUID_HANDLER.orEmpty(cap, holder.cast());
+                    return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.orEmpty(cap, holder.cast());
                 }
 
                 private void invalidate() {

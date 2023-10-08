@@ -16,25 +16,25 @@ dependencyResolutionManagement {
             plugin("mixin", "org.spongepowered.mixin").version("0.7.+")
             plugin("spotless", "com.diffplug.spotless").version("6.20.0")
 
-            val minecraftVersion = "1.19.2"
+            val minecraftVersion = "1.18.2"
             version("minecraft", minecraftVersion)
 
-            val forgeVersion = "43.2.14"
+            val forgeVersion = "40.1.60"
             version("loader", forgeVersion.substringBefore('.'))
             library("forge", "net.minecraftforge", "forge").version("$minecraftVersion-$forgeVersion")
             library("mixin", "org.spongepowered", "mixin").version("0.8.5")
 
-            version("ae2", "12.9.5")
+            version("ae2", "11.7.4")
             library("ae2", "appeng", "appliedenergistics2-forge").versionRef("ae2")
 
-            version("powah", "4.0.11")
-            library("powah", "curse.maven", "powah-rearchitected-633483").version("4729361")
-            library("architectury", "dev.architectury", "architectury-forge").version("6.2.43")
-            library("cloth", "me.shedaniel.cloth", "cloth-config-forge").version("7.0.74")
+            version("powah", "3.0.8")
+            library("powah", "curse.maven", "powah-rearchitected-633483").version("4525198")
+            library("architectury", "dev.architectury", "architectury-forge").version("4.11.93")
+            library("cloth", "me.shedaniel.cloth", "cloth-config-forge").version("6.5.102")
 
-            library("ic2c", "curse.maven", "ic2-classic-242942").version("4746971")
-            library("jei", "mezz.jei", "jei-$minecraftVersion-forge").version("11.4.0.285")
-            library("jade", "curse.maven", "jade-324717").version("4433884")
+            library("lazierae2", "curse.maven", "lazierae2-489843").version("4145521")
+            library("jei", "mezz.jei", "jei-$minecraftVersion-forge").version("10.2.1.283")
+            library("jade", "curse.maven", "jade-324717").version("4575623")
         }
     }
 }
