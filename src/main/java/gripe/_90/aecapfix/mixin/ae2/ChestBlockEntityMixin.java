@@ -56,7 +56,7 @@ public abstract class ChestBlockEntityMixin extends AEBaseBlockEntity {
                             shift = At.Shift.AFTER),
             cancellable = true)
     private <T> void setCapability(Capability<T> cap, Direction side, CallbackInfoReturnable<LazyOptional<T>> cir) {
-        if (cap == ForgeCapabilities.FLUID_HANDLER && fluidHandler != null && side != getForward()) {
+        if (cap == ForgeCapabilities.FLUID_HANDLER && fluidHandler != null && side != getFront()) {
             cir.setReturnValue(aecapfix$fluidHandlerHolder.cast());
         }
     }
