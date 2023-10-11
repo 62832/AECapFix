@@ -31,7 +31,7 @@ public abstract class CondenserBlockEntityMixin extends BlockEntity {
     private IFluidHandler fluidHandler;
 
     @Unique
-    private final LazyOptional<IItemHandler> aecapfix$externalInv = LazyOptional.of(externalInv::toItemHandler);
+    private final LazyOptional<IItemHandler> aecapfix$externalInv = LazyOptional.of(() -> externalInv.toItemHandler());
 
     @Unique
     private final LazyOptional<IFluidHandler> aecapfix$fluidHandler = LazyOptional.of(() -> fluidHandler);
