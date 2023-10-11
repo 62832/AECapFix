@@ -13,6 +13,7 @@ import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -62,14 +63,14 @@ public abstract class ForgeEnvHandlerMixin {
 
         if (event.getObject() instanceof AbstractEnergyStorage<?, ?> energyStorage) {
             var provider = new ICapabilityProvider() {
-                private final Set<LazyOptional<PowahEnergyStorage>> holders = new HashSet<>();
+                private final Set<LazyOptional<IEnergyStorage>> holders = new HashSet<>();
 
                 @NotNull
                 @Override
                 public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
                     if (cap == CapabilityEnergy.ENERGY && energyStorage.isEnergyPresent(side)) {
                         var holder = LazyOptional.of(() -> new PowahEnergyStorage(energyStorage, side));
-                        holders.add(holder);
+                        holders.add(holder.cast());
                         return holder.cast();
                     }
 
@@ -88,13 +89,14 @@ public abstract class ForgeEnvHandlerMixin {
 
         if (event.getObject() instanceof IInventoryHolder invHolder) {
             var provider = new ICapabilityProvider() {
-                private final LazyOptional<Object> holder =
-                        LazyOptional.of(() -> invHolder.getInventory().getPlatformWrapper());
+                private final LazyOptional<IItemHandler> holder = LazyOptional.of(
+                                () -> invHolder.getInventory().getPlatformWrapper())
+                        .cast();
 
                 @NotNull
                 @Override
                 public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-                    return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.orEmpty(cap, holder.cast());
+                    return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.orEmpty(cap, holder);
                 }
 
                 private void invalidate() {
