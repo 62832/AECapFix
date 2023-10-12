@@ -11,6 +11,7 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.IItemHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -38,12 +39,11 @@ public abstract class ForgeEnvHandlerMixin {
                 @NotNull
                 @Override
                 public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-                    if (cap == ForgeCapabilities.ENERGY) {
-                        if (reactorPart.core().isPresent() && reactorPart.isExtractor()) {
-                            var holder = reactorPart.core().get().getCapability(cap, side);
-                            holders.add(holder.cast());
-                            return holder;
-                        }
+                    if (reactorPart.core().isPresent()
+                            || cap == ForgeCapabilities.ENERGY && reactorPart.isExtractor()) {
+                        var holder = reactorPart.core().get().getCapability(cap, side);
+                        holders.add(holder.cast());
+                        return holder;
                     }
 
                     return LazyOptional.empty();
@@ -94,7 +94,12 @@ public abstract class ForgeEnvHandlerMixin {
                 @NotNull
                 @Override
                 public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-                    return ForgeCapabilities.ITEM_HANDLER.orEmpty(cap, holder);
+                    if (cap == ForgeCapabilities.ITEM_HANDLER
+                            && !invHolder.getInventory().isBlank()) {
+                        return holder.cast();
+                    }
+
+                    return LazyOptional.empty();
                 }
 
                 private void invalidate() {
@@ -108,8 +113,9 @@ public abstract class ForgeEnvHandlerMixin {
 
         if (event.getObject() instanceof ITankHolder tankHolder) {
             var provider = new ICapabilityProvider() {
-                private final LazyOptional<Object> holder =
-                        LazyOptional.of(() -> tankHolder.getTank().getPlatformWrapper());
+                private final LazyOptional<IFluidHandler> holder = LazyOptional.of(
+                                () -> tankHolder.getTank().getPlatformWrapper())
+                        .cast();
 
                 @NotNull
                 @Override
