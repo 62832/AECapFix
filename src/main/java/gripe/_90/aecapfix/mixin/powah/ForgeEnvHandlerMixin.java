@@ -11,8 +11,8 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import org.jetbrains.annotations.NotNull;
@@ -41,8 +41,7 @@ public abstract class ForgeEnvHandlerMixin {
                 @NotNull
                 @Override
                 public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-                    if (reactorPart.core().isPresent()
-                            || cap == CapabilityEnergy.ENERGY && reactorPart.isExtractor()) {
+                    if (reactorPart.core().isPresent() || cap == CapabilityEnergy.ENERGY && reactorPart.isExtractor()) {
                         var holder = reactorPart.core().get().getCapability(cap, side);
                         holders.add(holder.cast());
                         return holder;
