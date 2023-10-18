@@ -36,7 +36,7 @@ public abstract class ForgeEnvHandlerMixin {
 
         if (event.getObject() instanceof ReactorPartTile reactorPart) {
             var provider = new ICapabilityProvider() {
-                private final Set<LazyOptional<IEnergyStorage>> holders = new HashSet<>();
+                private final Set<LazyOptional<Object>> holders = new HashSet<>();
 
                 @NotNull
                 @Override
