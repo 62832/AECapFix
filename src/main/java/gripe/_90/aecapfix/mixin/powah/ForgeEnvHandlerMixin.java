@@ -41,13 +41,13 @@ public abstract class ForgeEnvHandlerMixin {
                 @NotNull
                 @Override
                 public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-                    if (reactorPart.core().isPresent() || cap == CapabilityEnergy.ENERGY && reactorPart.isExtractor()) {
-                        var holder = reactorPart.core().get().getCapability(cap, side);
-                        holders.add(holder.cast());
-                        return holder;
+                    if (reactorPart.core().isEmpty() || cap == CapabilityEnergy.ENERGY && !reactorPart.isExtractor()) {
+                        return LazyOptional.empty();
                     }
 
-                    return LazyOptional.empty();
+                    var holder = reactorPart.core().get().getCapability(cap, side);
+                    holders.add(holder.cast());
+                    return holder;
                 }
 
                 private void invalidate() {
