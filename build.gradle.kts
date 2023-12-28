@@ -156,7 +156,7 @@ spotless {
     json {
         target("src/*/resources/**/*.json")
         targetExclude("src/generated/resources/**")
-        rome()
+        biome()
         indentWithSpaces(2)
         endWithNewline()
     }
