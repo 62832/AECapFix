@@ -157,6 +157,8 @@ spotless {
     json {
         target("src/*/resources/**/*.json")
         targetExclude("src/generated/resources/**")
-        prettier().config(mapOf("parser" to "json"))
+        biome()
+        indentWithSpaces(2)
+        endWithNewline()
     }
 }

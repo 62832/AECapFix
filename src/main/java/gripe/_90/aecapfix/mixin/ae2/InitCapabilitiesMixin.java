@@ -5,8 +5,7 @@ import appeng.core.AppEng;
 import appeng.helpers.externalstorage.GenericStackFluidStorage;
 import appeng.helpers.externalstorage.GenericStackItemStorage;
 import appeng.init.InitCapabilities;
-import java.util.HashSet;
-import java.util.Set;
+import gripe._90.aecapfix.misc.DirectionalCapabilityCache;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.Capability;
@@ -14,7 +13,9 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -32,33 +33,28 @@ public abstract class InitCapabilitiesMixin {
         var provider = new ICapabilityProvider() {
             private final BlockEntity be = event.getObject();
 
-            private final Set<LazyOptional<GenericStackItemStorage>> itemHandlers = new HashSet<>();
-            private final Set<LazyOptional<GenericStackFluidStorage>> fluidHandlers = new HashSet<>();
+            private final DirectionalCapabilityCache<IItemHandler> itemHandlers = new DirectionalCapabilityCache<>();
+            private final DirectionalCapabilityCache<IFluidHandler> fluidHandlers = new DirectionalCapabilityCache<>();
 
             @NotNull
             @Override
             public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
                 if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-                    var handler = be.getCapability(Capabilities.GENERIC_INTERNAL_INV, side)
+                    var holder = be.getCapability(Capabilities.GENERIC_INTERNAL_INV, side)
                             .lazyMap(GenericStackItemStorage::new);
-                    itemHandlers.add(handler);
-                    return handler.cast();
+                    return itemHandlers.getOrCache(side, holder).cast();
                 } else if (cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
-                    var handler = be.getCapability(Capabilities.GENERIC_INTERNAL_INV, side)
+                    var holder = be.getCapability(Capabilities.GENERIC_INTERNAL_INV, side)
                             .lazyMap(GenericStackFluidStorage::new);
-                    fluidHandlers.add(handler);
-                    return handler.cast();
+                    return fluidHandlers.getOrCache(side, holder).cast();
                 } else {
                     return LazyOptional.empty();
                 }
             }
 
             private void invalidate() {
-                itemHandlers.forEach(LazyOptional::invalidate);
-                fluidHandlers.forEach(LazyOptional::invalidate);
-
-                itemHandlers.clear();
-                fluidHandlers.clear();
+                itemHandlers.invalidate();
+                fluidHandlers.invalidate();
             }
         };
 

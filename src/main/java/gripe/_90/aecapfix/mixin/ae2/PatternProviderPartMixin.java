@@ -1,6 +1,6 @@
 package gripe._90.aecapfix.mixin.ae2;
 
-import appeng.helpers.iface.PatternProviderLogic;
+import appeng.helpers.patternprovider.PatternProviderLogic;
 import appeng.parts.crafting.PatternProviderPart;
 import gripe._90.aecapfix.AECapFix;
 import org.spongepowered.asm.mixin.Final;

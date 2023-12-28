@@ -1,8 +1,7 @@
 package gripe._90.aecapfix.mixin.powah;
 
+import gripe._90.aecapfix.misc.DirectionalCapabilityCache;
 import gripe._90.aecapfix.misc.PowahEnergyStorage;
-import java.util.HashSet;
-import java.util.Set;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.Capability;
@@ -36,23 +35,19 @@ public abstract class ForgeEnvHandlerMixin {
 
         if (event.getObject() instanceof ReactorPartTile reactorPart) {
             var provider = new ICapabilityProvider() {
-                private final Set<LazyOptional<Object>> holders = new HashSet<>();
+                private final DirectionalCapabilityCache<Object> cache = new DirectionalCapabilityCache<>();
 
                 @NotNull
                 @Override
                 public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-                    if (reactorPart.core().isEmpty() || cap == CapabilityEnergy.ENERGY && !reactorPart.isExtractor()) {
-                        return LazyOptional.empty();
-                    }
-
-                    var holder = reactorPart.core().get().getCapability(cap, side);
-                    holders.add(holder.cast());
-                    return holder;
+                    return reactorPart.core().isEmpty() || cap == CapabilityEnergy.ENERGY && !reactorPart.isExtractor()
+                            ? LazyOptional.empty()
+                            : cache.getOrCache(side, reactorPart.core().get().getCapability(cap, side))
+                                    .cast();
                 }
 
                 private void invalidate() {
-                    holders.forEach(LazyOptional::invalidate);
-                    holders.clear();
+                    cache.invalidate();
                 }
             };
 
@@ -62,23 +57,21 @@ public abstract class ForgeEnvHandlerMixin {
 
         if (event.getObject() instanceof AbstractEnergyStorage<?, ?> energyStorage) {
             var provider = new ICapabilityProvider() {
-                private final Set<LazyOptional<IEnergyStorage>> holders = new HashSet<>();
+                private final DirectionalCapabilityCache<IEnergyStorage> cache = new DirectionalCapabilityCache<>();
 
                 @NotNull
                 @Override
                 public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
                     if (cap == CapabilityEnergy.ENERGY && energyStorage.isEnergyPresent(side)) {
                         var holder = LazyOptional.of(() -> new PowahEnergyStorage(energyStorage, side));
-                        holders.add(holder.cast());
-                        return holder.cast();
+                        return cache.getOrCache(side, holder).cast();
                     }
 
                     return LazyOptional.empty();
                 }
 
                 private void invalidate() {
-                    holders.forEach(LazyOptional::invalidate);
-                    holders.clear();
+                    cache.invalidate();
                 }
             };
 
