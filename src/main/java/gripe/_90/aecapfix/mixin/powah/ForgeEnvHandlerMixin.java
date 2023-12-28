@@ -27,7 +27,7 @@ import owmii.powah.lib.block.ITankHolder;
 
 @Mixin(value = ForgeEnvHandler.class, remap = false)
 public abstract class ForgeEnvHandlerMixin {
-    @Inject(method = "lambda$registerTransfer$2", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "lambda$registerTransfer$3", at = @At("HEAD"), cancellable = true)
     private void registerCapabilities(AttachCapabilitiesEvent<BlockEntity> event, CallbackInfo ci) {
         ci.cancel();
 
