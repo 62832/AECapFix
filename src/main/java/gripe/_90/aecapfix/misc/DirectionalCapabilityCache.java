@@ -1,19 +1,25 @@
 package gripe._90.aecapfix.misc;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 import net.minecraft.core.Direction;
+import net.minecraft.core.NonNullList;
 import net.minecraftforge.common.util.LazyOptional;
 
 public class DirectionalCapabilityCache<C> {
-    private final Map<String, LazyOptional<C>> holders = new HashMap<>();
+    private final List<LazyOptional<C>> holders = NonNullList.withSize(7, LazyOptional.empty());
 
     public LazyOptional<C> getOrCache(Direction side, LazyOptional<?> toCache) {
-        return holders.computeIfAbsent(side == null ? "null" : side.getName(), k -> toCache.cast());
+        var index = side != null ? side.get3DDataValue() : 6;
+
+        if (!holders.get(index).isPresent() && toCache.isPresent()) {
+            holders.set(index, toCache.cast());
+        }
+
+        return holders.get(index);
     }
 
     public void invalidate() {
-        holders.forEach((side, holder) -> holder.invalidate());
+        holders.forEach(LazyOptional::invalidate);
         holders.clear();
     }
 }
