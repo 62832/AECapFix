@@ -3,10 +3,15 @@ package gripe._90.aecapfix.misc;
 import java.util.List;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
+import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 
 public class DirectionalCapabilityCache<C> {
     private final List<LazyOptional<C>> holders = NonNullList.withSize(7, LazyOptional.empty());
+
+    public static <T> DirectionalCapabilityCache<T> of(Capability<T> ignored) {
+        return new DirectionalCapabilityCache<>();
+    }
 
     public LazyOptional<C> getOrCache(Direction side, LazyOptional<?> toCache) {
         var index = side != null ? side.get3DDataValue() : 6;

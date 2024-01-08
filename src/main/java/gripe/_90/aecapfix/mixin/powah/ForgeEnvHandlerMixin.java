@@ -2,6 +2,8 @@ package gripe._90.aecapfix.mixin.powah;
 
 import gripe._90.aecapfix.misc.DirectionalCapabilityCache;
 import gripe._90.aecapfix.misc.PowahEnergyStorage;
+import java.util.HashMap;
+import java.util.Map;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.Capability;
@@ -33,19 +35,25 @@ public abstract class ForgeEnvHandlerMixin {
 
         if (event.getObject() instanceof ReactorPartTile reactorPart) {
             var provider = new ICapabilityProvider() {
-                private final DirectionalCapabilityCache<Object> cache = new DirectionalCapabilityCache<>();
+                private final Map<Capability<?>, DirectionalCapabilityCache<?>> caches = new HashMap<>();
+
+                private DirectionalCapabilityCache<?> getCacheFor(Capability<?> cap) {
+                    return caches.computeIfAbsent(cap, DirectionalCapabilityCache::of);
+                }
 
                 @NotNull
                 @Override
                 public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
                     return reactorPart.core().isEmpty() || cap == ForgeCapabilities.ENERGY && !reactorPart.isExtractor()
                             ? LazyOptional.empty()
-                            : cache.getOrCache(side, reactorPart.core().get().getCapability(cap, side))
+                            : getCacheFor(cap)
+                                    .getOrCache(side, reactorPart.core().get().getCapability(cap, side))
                                     .cast();
                 }
 
                 private void invalidate() {
-                    cache.invalidate();
+                    caches.forEach((k, v) -> v.invalidate());
+                    caches.clear();
                 }
             };
 
